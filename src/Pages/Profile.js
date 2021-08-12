@@ -4,7 +4,7 @@ import userService from '../Services/UserService';
 function Profile() {
 
     return (
-        <div className="Profile">
+        <div className="BodyWindow">
             <h1>Profile</h1>
         </div>
     )

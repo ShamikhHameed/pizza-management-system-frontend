@@ -19,7 +19,7 @@ function ReportsDelivery() {
     })
 
     return (
-        <div className="ReportsDelivery">
+        <div className="BodyWindow">
             <h1>{content}</h1>
         </div>
     )

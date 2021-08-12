@@ -19,7 +19,7 @@ function ReportsCrusts() {
     })
 
     return (
-        <div className="ReportsCrusts">
+        <div className="BodyWindow">
             <h1>{content}</h1>
         </div>
     )

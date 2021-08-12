@@ -19,7 +19,7 @@ function ReportsOrders() {
     })
 
     return (
-        <div className="ReportsOrders">
+        <div className="BodyWindow">
             <h1>{content}</h1>
         </div>
     )

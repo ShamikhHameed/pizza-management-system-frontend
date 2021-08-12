@@ -3,6 +3,7 @@ import { SidebarData } from './SidebarData'
 import { Redirect } from 'react-router-dom';
 import SubMenu from './SubMenu';
 import authService from '../Services/AuthService';
+import '../App.css'
 
 function Sidebar({ authorized }) {
     const [subnav, setSubnav] = useState(false);
@@ -14,14 +15,14 @@ function Sidebar({ authorized }) {
         return <Redirect to="/login" />
     }
 
-    const logOut = () => {
-        authService.logout();
-        window.location.reload();
-    };
+    // const logOut = () => {
+    //     authService.logout();
+    //     window.location.reload();
+    // };
 
     return (
-        <div className="App">
-            <div className="Header">
+        <div>
+            {/* <div className="Header">
                 <div className="HeaderRight">
                     <p>
                         @{user.username}
@@ -37,7 +38,7 @@ function Sidebar({ authorized }) {
                         LOG OUT
                     </button>
                 </div>
-            </div>
+            </div> */}
 
             <div className="Sidebar">
                 {SidebarData.map((val, index) => {

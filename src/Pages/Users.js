@@ -19,7 +19,7 @@ function Users() {
     })
 
     return (
-        <div className="Users">
+        <div className="BodyWindow">
             <h1>{content}</h1>
         </div>
     )

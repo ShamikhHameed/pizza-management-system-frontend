@@ -19,7 +19,7 @@ function Toppings() {
     })
 
     return (
-        <div className="Toppings">
+        <div className="BodyWindow">
             <h1>{content}</h1>
         </div>
     )

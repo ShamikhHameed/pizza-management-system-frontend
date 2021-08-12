@@ -14,14 +14,24 @@ import ReportsToppings from './Pages/ReportsToppings';
 import ReportsOrders from './Pages/ReportsOrders';
 import ReportsDelivery from './Pages/ReportsDelivery';
 import Profile from './Pages/Profile';
+import Header from './Components/Header';
 
 function App() {
   const user = authService.getCurrentUser();
 
   return (
-    <div>
+    <div className="App">
       <BrowserRouter>
+
+      <div className="AppSidebar">
         <Sidebar authorized={user} />
+      </div>
+
+      <div className="AppHeader">
+        <Header authorized={user} />
+      </div>
+
+      <div className="AppBody">
         <Switch>
           <Route exact path={"/login"} component={Login} />
           <Route path={"/users"} exact component={Users} />
@@ -36,6 +46,8 @@ function App() {
           <Route path={"/reports/delivery"} exact component={ReportsDelivery} />
           <Route path={"/profile"} exact component={Profile} />
         </Switch>
+      </div>
+
       </BrowserRouter>
     </div>
   );
