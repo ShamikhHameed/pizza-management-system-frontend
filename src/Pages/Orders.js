@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react'
+import { Modal } from '../Components/OrderModel';
 import userService from '../Services/UserService';
 
 function Orders() {
     const [content, setContent] = useState("");
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => {
+        setShowModal(prev => !prev)
+    }
 
     useEffect(() => {
         userService.getAddOrders().then(
@@ -20,7 +26,18 @@ function Orders() {
 
     return (
         <div className="BodyWindow">
-            <h1>{content}</h1>
+            <div className="BodyWindowTop">
+                <div className="BodyWindowTopLeft">
+                    <button onClick={openModal}>
+                        Take an Order
+                    </button>
+                </div>
+            </div>
+            <div className="BodyWindowBottom">
+                Bottom part
+            </div>
+            <Modal showModal={showModal} setShowModal={setShowModal} />
+            {/* <h1>{content}</h1> */}
         </div>
     )
 }
