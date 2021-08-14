@@ -4,6 +4,14 @@ import authHeader from './AuthHeader';
 const API_URL = 'http://localhost:8080/api/access/';
 
 class UserService {
+    getUsersList() {
+        return axios.get(API_URL + "users");
+    }
+
+    deleteUser(id) {
+        return axios.delete(API_URL + "users/" + id);
+    }
+
     getAddUsers() {
         return axios.get(API_URL + 'users/add', { headers: authHeader() });
     }

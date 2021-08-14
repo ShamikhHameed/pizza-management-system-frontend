@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Modal } from '../Components/Modal';
+// import { Modal } from '../Modals/AddUserModal';
 import userService from '../Services/UserService';
 
 function Crusts() {
     const [content, setContent] = useState("");
     const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => {
-        setShowModal(prev => !prev)
-    }
+    // const openModal = () => {
+    //     setShowModal(prev => !prev)
+    // }
 
     useEffect(() => {
         userService.getAddCrusts().then(
@@ -28,15 +28,15 @@ function Crusts() {
         <div className="BodyWindow">
             <div className="BodyWindowTop">
                 <div className="BodyWindowTopLeft">
-                    <button onClick={openModal}>
+                    {/* <button onClick={openModal}>
                         Add User
-                    </button>
+                    </button> */}
                 </div>
             </div>
             <div className="BodyWindowBottom">
                 Bottom part
             </div>
-            <Modal showModal={showModal} setShowModal={setShowModal} />
+            {/* <Modal showModal={showModal} setShowModal={setShowModal} /> */}
             {/* <h1>{content}</h1> */}
         </div>
     )
