@@ -8,6 +8,14 @@ class UserService {
         return axios.get(API_URL + "users");
     }
 
+    updateUser(id, username, email, roles) {
+        return axios.put(API_URL + "users/" + id, {
+            username,
+            email,
+            roles
+        });
+    }
+
     deleteUser(id) {
         return axios.delete(API_URL + "users/" + id);
     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { AddUserModal } from '../Modals/AddUserModal';
 import { ConfirmDeleteModal } from '../Modals/ConfirmDeleteModal'
+import { UpdateUserModal } from '../Modals/UpdateUserModal'
 import userService from '../Services/UserService';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -10,7 +11,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Avatar, Grid, Typography } from '@material-ui/core';
+import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@material-ui/core';
 import UserService from '../Services/UserService';
 import FlashMessage from '../Components/FlashMessage';
 
@@ -40,11 +41,16 @@ function Users() {
     const [content, setContent] = useState("");
     const [showAddUserModal, setShowAddUserModal] = useState(false);
     const [showConfirmDeleteModal, setShowConfirmDeleteModal] = useState(false);
+    const [showUpdateUserModal, setShowUpdateUserModal] = useState(false);
     const [users, setUsers] = useState([]);
     const [snackbarSuccess, setSnackbarSuccess] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarType, setSnackbarType] = useState("");
     const [deleteUserId, setdeleteUserId] = useState("");
+    // const [updateUserId, setupdateUserId] = useState("");
+    const [userDetails, setUserDetails] = useState([]);
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
     const openAddUserModal = () => {
         setShowAddUserModal(prev => !prev)
@@ -54,10 +60,29 @@ function Users() {
         setShowConfirmDeleteModal(prev => !prev)
     }
 
+    const openUpdateUserModal = () => {
+        setShowUpdateUserModal(prev => !prev)
+    }
+
     const handleDelete = id => {
         setdeleteUserId(id);
         openConfirmDeleteModal();
     }
+
+    const handleUpdate = async userDetails => {
+        // setupdateUserId(id);
+        await setUserDetails(userDetails)
+        await openUpdateUserModal();
+    }
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+      };
+    
+      const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      };
 
     // const deleteUser = id => {
     //     UserService.deleteUser(id).then(
@@ -85,7 +110,6 @@ function Users() {
         userService.getUsersList().then(
             response => {
                 setUsers(Object.values(response.data));
-                console.log(users);
             },
             error => {
                 console.log(
@@ -122,7 +146,7 @@ function Users() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {users.map((user, index) => (
+                        {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     <Grid container>
@@ -145,7 +169,7 @@ function Users() {
                                     </TableCell> 
                                 ))}
                                 <TableCell>
-                                    <button className="form-update">
+                                    <button className="form-update" onClick={() => handleUpdate(user)}>
                                         UPDATE
                                     </button>
                                 </TableCell>
@@ -157,10 +181,22 @@ function Users() {
                             </TableRow>
                             ))}
                         </TableBody>
+                        <TableFooter>
+                        <TablePagination
+                            rowsPerPageOptions={[4, 6, 8]}
+                            component="div"
+                            count={users.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </TableFooter>
                     </Table>
                 </TableContainer>
             </div>
             <AddUserModal showModal={showAddUserModal} setShowModal={setShowAddUserModal} />
+            <UpdateUserModal showModal={showUpdateUserModal} setShowModal={setShowUpdateUserModal} userDetails={userDetails} />
             <ConfirmDeleteModal showModal={showConfirmDeleteModal} setShowModal={setShowConfirmDeleteModal} id={deleteUserId} />
             {
             snackbarSuccess ? <FlashMessage message={snackbarMessage} type={snackbarType} /> : ""

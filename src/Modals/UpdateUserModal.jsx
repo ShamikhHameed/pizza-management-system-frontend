@@ -2,9 +2,10 @@ import React, { Component, useRef, useEffect, useCallback, useState } from 'reac
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components'
 import CloseIcon from '@material-ui/icons/Close';
-import AuthService from '../Services/AuthService';
+// import AuthService from '../Services/AuthService';
+import UserService from '../Services/UserService';
 import FlashMessage from '../Components/FlashMessage';
-import validateInfo from '../Validation/AddUserValidation';
+import validateInfo from '../Validation/UpdateUserValidation';
 import '../App.css'
 
 const Background = styled.div`
@@ -65,18 +66,17 @@ const CloseModalButton = styled(CloseIcon)`
 `
 
 
-export const AddUserModal = ({ showModal, setShowModal }) => {
+export const UpdateUserModal = ({ showModal, setShowModal, userDetails }) => {
     const modalRef = useRef()
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [confirmPassword, setConfirmPassword] = useState("");
     const [role, setRole] = useState(["admin"]);
     const [message, setMessage] = useState("");
     const [snackbarSuccess, setSnackbarSuccess] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarType, setSnackbarType] = useState("");
-    // const { handleChange, values, handleSubmit, errors } = useForm(validateInfo);
 
     const onChangeUsername = e => {
         setUsername(e.target.value);
@@ -86,38 +86,41 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
         setEmail(e.target.value);
     }
 
-    const onChangePassword = e => {
-        setPassword(e.target.value);
-    }
+    // const onChangePassword = e => {
+    //     setPassword(e.target.value);
+    // }
 
-    const onChangeConfirmPassword = e => {
-        setConfirmPassword(e.target.value);
-    }
+    // const onChangeConfirmPassword = e => {
+    //     setConfirmPassword(e.target.value);
+    // }
 
     const onChangeRole = e => {
         setRole([e.target.value]);
     }
 
-    //validation start
     const [values, setValues] = useState({
         username: "",
         email: "",
-        password: "",
-        confirmPassword: "",
+        // password: "",
+        // confirmPassword: "",
         role: []
     })
 
     const [errors, setErrors] = useState({})
     const [isSubmitting, setIsSubmitting] = useState(false)
 
-    // const handleChange = e => {
-    //     const { name, value } = e.target
+    useEffect(() => {
+        setValues({
+            ...values,
+            username: userDetails.username,
+            email: userDetails.email,
+            // password: userDetails.password,
+            // confirmPassword: userDetails.confirmPassword,
+            role: [userDetails.roles]
+        })
+    }, [userDetails]);
 
-    //     setValues({
-    //         ...values,
-    //         [name]: value
-    //     })
-    // }
+    console.log(values.role);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -126,8 +129,8 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
             ...values,
             username: username,
             email: email,
-            password: password,
-            confirmPassword: confirmPassword,
+            // password: password,
+            // confirmPassword: confirmPassword,
             role: [role]
         })
 
@@ -135,21 +138,13 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
         setIsSubmitting(true);
 
         if(Object.keys(errors).length === 0 && isSubmitting) {
-            AuthService.register(username, email, role, password)
+            UserService.updateUser(userDetails.id , username, email, role)
     .then(
         () => {
             setShowModal(false);
-            setSnackbarMessage("User added Successfully");
+            setSnackbarMessage("User updated Successfully");
             setSnackbarType("success");
             setSnackbarSuccess(true);
-            setValues({
-                ...values,
-                username: "",
-                email: "",
-                password: "",
-                confirmPassword: "",
-                role: ["admin"]
-            })
         },
         error => {
             const resMessage =
@@ -158,16 +153,13 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            setSnackbarMessage("ERROR: Unable to add user. " + resMessage);
+            setSnackbarMessage("ERROR: Unable to update user. " + resMessage);
             setSnackbarType("error");
             setSnackbarSuccess(true);
-            // setMessage(resMessage);
         }
     );
     setSnackbarSuccess(false);
-    }
-    }
-    //validation end
+    }}
 
     const animation = useSpring({
         config: {
@@ -179,6 +171,14 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
 
     const closeModal = e => {
         if(modalRef.current === e.target) {
+            setValues({
+                ...values,
+                username: "",
+                email: "",
+                // password: "",
+                // confirmPassword: "",
+                role: [""]
+            })
             setShowModal(false);
         }
     }
@@ -186,39 +186,19 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
     const keyPress = useCallback(
         e => {
             if(e.key === 'Escape' && showModal) {
+                setValues({
+                    ...values,
+                    username: "",
+                    email: "",
+                    // password: "",
+                    // confirmPassword: "",
+                    role: [""]
+                })
                 setShowModal(false);
             }
         },
         [setShowModal, showModal]
     );
-
-    const addUser = e => {
-        e.preventDefault();
-
-        //this.form.validateAll();
-        AuthService.register(username, email, role, password)
-        .then(
-            () => {
-                setShowModal(false);
-                setSnackbarMessage("User added Successfully");
-                setSnackbarType("success");
-                setSnackbarSuccess(true);
-            },
-            error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                setSnackbarMessage("ERROR: Unable to add user. " + resMessage);
-                setSnackbarType("error");
-                setSnackbarSuccess(true);
-                setMessage(resMessage);
-            }
-        );
-        setSnackbarSuccess(false);     
-    }
 
     useEffect(
         () => {
@@ -234,75 +214,9 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                 <animated.div style={animation}>
                 <ModalWrapper showModal={showModal}>
                     <ModalContent>
-                        {/* <input 
-                            type="text"
-                            name="username"
-                            placeholder="Username"
-                            value={username}
-                            onChange={onChangeUsername}
-                        />
-                        <input 
-                            type="text"
-                            name="email"
-                            placeholder="Email"
-                            value={email}
-                            onChange={onChangeEmail}
-                        />
-                        <input 
-                            type="password"
-                            name="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={onChangePassword}
-                        />
-
-                        <div
-                            onClick={onChangeRole}
-                        >
-                            <label>Choose User Type</label>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input id="admin" type="radio" value="admin" name="userType"/>
-                                    </td>
-                                    <td>
-                                        <label htmlFor="admin"> Admin</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input id="manager" type="radio" value="manager" name="userType"/>
-                                    </td>
-                                    <td>
-                                        <label htmlFor="manager"> Manager</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input id="cashier" type="radio" value="cashier" name="userType"/>
-                                    </td>
-                                    <td>
-                                        <label htmlFor="cashier"> Cashier</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input id="delivery" type="radio" value="delivery" name="userType"/>
-                                    </td>
-                                    <td>
-                                        <label htmlFor="delivery"> Delivery</label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-
-                        <button onClick={addUser}>
-                            Add User
-                        </button> */}
-
                         <form className="form" onSubmit={handleSubmit}>
                             <h2>
-                                Add a New User
+                                Update User
                             </h2>
                             <div className="form-inputs">
                                 <label htmlFor="username"
@@ -340,7 +254,7 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                                     {errors.email && <span>{errors.email}</span>}
                                     </div>
                             </div>
-                            <div className="form-inputs">
+                            {/* <div className="form-inputs">
                                 <label htmlFor="password"
                                     className="form-label"
                                 >
@@ -352,6 +266,7 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                                     className="form-input"
                                     defaultValue={values.password}
                                     onChange={onChangePassword}
+                                    disabled
                                     />
                                     <div className="form-error">
                                         {errors.password && <span>{errors.password}</span>}
@@ -369,11 +284,12 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                                     className="form-input"
                                     defaultValue={values.confirmPassword}
                                     onChange={onChangeConfirmPassword}
+                                    disabled
                                     />
                                     <div className="form-error">
                                     {errors.confirmPassword && <span>{errors.confirmPassword}</span>}
                                     </div>
-                            </div>
+                            </div> */}
                             <div className="form-inputs"
                             onClick={onChangeRole}
                             >
@@ -383,28 +299,36 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                             <table>
                                 <tr>
                                     <td>
-                                        <input id="admin" type="radio" value="admin" name="userType" defaultChecked/>
+                                        <input id="admin" type="radio" value="admin" name="userType" 
+                                        defaultChecked={userDetails.roles[0].name === "ROLE_ADMIN" ? true : false}
+                                        />
                                     </td>
                                     <td className="radioLabel">
                                         <label htmlFor="admin"> Admin</label>
                                     </td>
 
                                     <td>
-                                        <input id="manager" type="radio" value="manager" name="userType"/>
+                                        <input id="manager" type="radio" value="manager" name="userType" 
+                                        defaultChecked={userDetails.roles[0].name === "ROLE_MANAGER" ? true : false}
+                                        />
                                     </td>
                                     <td className="radioLabel">
                                         <label htmlFor="manager"> Manager</label>
                                     </td>
 
                                     <td>
-                                        <input id="cashier" type="radio" value="cashier" name="userType"/>
+                                        <input id="cashier" type="radio" value="cashier" name="userType" 
+                                        defaultChecked={userDetails.roles[0].name === "ROLE_CASHIER" ? true : false}
+                                        />
                                     </td>
                                     <td className="radioLabel">
                                         <label htmlFor="cashier"> Cashier</label>
                                     </td>
 
                                     <td>
-                                        <input id="delivery" type="radio" value="delivery" name="userType"/>
+                                        <input id="delivery" type="radio" value="delivery" name="userType" 
+                                        defaultChecked={userDetails.roles[0].name === "ROLE_DELIVERY" ? true : false}
+                                        />
                                     </td>
                                     <td className="radioLabel">
                                         <label htmlFor="delivery"> Delivery</label>
@@ -418,7 +342,7 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
                             <button className="form-input-btn"
                                 type="submit" onClick={handleSubmit}
                             >
-                                Add User
+                                Update User
                             </button>
                         </form>
 
