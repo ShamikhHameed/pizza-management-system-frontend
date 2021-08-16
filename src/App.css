@@ -12,7 +12,7 @@ body {
 .Sidebar {
   height: 100vh;
   width: 15vw;
-  padding-top: 100px;
+  padding-top: 7.3%;
   background-color: #192435;
   position: fixed;
   box-shadow: 10px 5px 8px -9px rgba(0, 0, 0, 0.75);
@@ -35,15 +35,6 @@ body {
   color: white;
   justify-content: center;
   align-items: center;
-}
-
-.Sidebar .row:hover {
-  cursor: pointer;
-  background-color: #25253c;
-}
-
-.Sidebar .row.active  {
-  background-color: #252F3C;
 }
 
 .row #icon {
