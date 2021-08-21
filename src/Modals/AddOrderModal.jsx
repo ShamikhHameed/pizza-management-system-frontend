@@ -100,6 +100,14 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
         setDelivery(e.target.value);
     }
 
+    const [values, setValues] = useState({
+        name: "",
+        address: ""
+    })
+
+    const [errors, setErrors] = useState({})
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
     // const onChangeCrust = e => {
     //     setCrusts(e.target.value);
     // }
@@ -131,17 +139,26 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
     setItemList([...itemList, { crust: "", topping: "", size: "", quantity: null }]);
   };
 
-    const [values, setValues] = useState({
-        name: "",
-        smallPrice: null,
-        veg: ""
-    })
+    // const [values, setValues] = useState({
+    //     name: "",
+    //     smallPrice: null,
+    //     veg: ""
+    // })
 
-    const [errors, setErrors] = useState({})
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    // const [errors, setErrors] = useState({})
+    // const [isSubmitting, setIsSubmitting] = useState(false)
 
     const handleSubmit = e => {
         e.preventDefault();
+
+        setValues({
+            ...values,
+            name: name,
+            address: address
+        })
+
+        setErrors(validateInfo(values));
+        setIsSubmitting(true);
 
         // setValues({
         //     ...values,
@@ -153,7 +170,7 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
         // setErrors(validateInfo(values));
         // setIsSubmitting(true);
 
-        // if(Object.keys(errors).length === 0 && isSubmitting) {
+        if(Object.keys(errors).length === 0 && isSubmitting) {
             OrderService.addOrder(name, address, itemList, delivery)
         .then(
             () => {
@@ -161,12 +178,13 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
                 setSnackbarMessage("Order added Successfully");
                 setSnackbarType("success");
                 setSnackbarSuccess(true);
-                // setValues({
-                //     ...values,
-                //     name: "",
-                //     smallPrice: null,
-                //     veg: "veg"
-                // })
+                setValues({
+                    ...values,
+                    name: "",
+                    address: ""
+                })
+                setName("")
+                setAddress("")
         },
         error => {
             const resMessage =
@@ -181,7 +199,7 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
         }
     );
         setSnackbarSuccess(false);
-    // }
+    }
 }
 
     const animation = useSpring({
@@ -290,7 +308,7 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
                                 <label htmlFor="address"
                                     className="form-label"
                                 >
-                                    Customer Address
+                                    Delivery Address
                                 </label>
                                 <input 
                                     type="text"
@@ -366,9 +384,14 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
                                 <option value="large">Large</option>
                             </select>
                             <input
+                            type="number"
+                            oninput={(x.quantity = Math.round(x.quantity))}
+                            // oninput={x.quantitye=x.quantity.slice(0,2)}
+                            onkeyup={(x.quantity<1) ? (x.quantity= x.quantity * -1):null}
+                            // onKeyPress={(x.quantity.length==2) ? false : true}
+                            maxLength="2"
                             className="selectQuantity"
                             name="quantity"
-                            placeholder="Quantity"
                             value={x.quantity}
                             onChange={e => handleItemChange(e, i)}
                             />

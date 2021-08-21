@@ -376,7 +376,8 @@ select {
 
 .selectQuantity {
   margin-left: 5px;
-  width: 12%;
+  width: 8%;
+  text-align: center;
   outline: none;
 }
 
