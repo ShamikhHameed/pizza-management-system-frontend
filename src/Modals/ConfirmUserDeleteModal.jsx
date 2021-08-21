@@ -109,7 +109,7 @@ const DeleteButton = styled.button`
     }
 `
 
-export const ConfirmDeleteModal = ({ showModal, setShowModal, id }) => {
+export const ConfirmUserDeleteModal = ({ showModal, setShowModal, id }) => {
     const modalRef = useRef()
     const [snackbarSuccess, setSnackbarSuccess] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -136,12 +136,10 @@ export const ConfirmDeleteModal = ({ showModal, setShowModal, id }) => {
             setSnackbarMessage("ERROR: Unable to add user. " + resMessage);
             setSnackbarType("error");
             setSnackbarSuccess(true);
-            // setMessage(resMessage);
         }
     );
     setSnackbarSuccess(false);
     }
-    //validation end
 
     const animation = useSpring({
         config: {

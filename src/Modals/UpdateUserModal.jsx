@@ -120,8 +120,6 @@ export const UpdateUserModal = ({ showModal, setShowModal, userDetails }) => {
         })
     }, [userDetails]);
 
-    console.log(values.role);
-
     const handleSubmit = e => {
         e.preventDefault();
 

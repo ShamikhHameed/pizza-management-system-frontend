@@ -8,6 +8,10 @@ class UserService {
         return axios.get(API_URL + "users");
     }
 
+    getDeliveryUsersList() {
+        return axios.get(API_URL + "users/delivery");
+    }
+
     updateUser(id, username, email, roles) {
         return axios.put(API_URL + "users/" + id, {
             username,

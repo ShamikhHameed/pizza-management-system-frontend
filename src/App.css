@@ -166,6 +166,7 @@ body {
   bottom: 1%;
   background-color: #192435;
   color: white;
+  border-radius: 100px;
   box-shadow: 0px 0px 35px 5px rgba(0, 0, 0, 0.75);
 }
 
@@ -245,7 +246,7 @@ body {
 }
 
 .form-input-btn {
-  width: 80%;
+  /* width: 80%;
   height: 50px;
   margin-top: 10px;
   border-radius: 2px;
@@ -257,7 +258,12 @@ body {
   outline: none;
   border: none;
   color: #fff;
-  font-size: 1rem;
+  font-size: 1rem; */
+  padding: 10px 24px;
+  background: #141414;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
 }
 
 .form-input-btn:hover {
@@ -339,4 +345,80 @@ body {
 .login-error {
   font-size: 0.7rem;
   color: #f00e0e;
+}
+
+select {
+  padding: 5px;
+}
+
+.selectDelivery {
+  width: 80%;
+  outline: none;
+  margin-bottom: 20px;
+}
+
+.selectCrust {
+  width: 20%;
+  outline: none;
+}
+
+.selectTopping {
+  margin-left: 5px;
+  width: 20%;
+  outline: none;
+}
+
+.selectSize {
+  margin-left: 5px;
+  width: 20%;
+  outline: none;
+}
+
+.selectQuantity {
+  margin-left: 5px;
+  width: 12%;
+  outline: none;
+}
+
+.form-item-remove-btn {
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #f15e5e;
+  padding: 5px;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.form-item-remove-btn:hover {
+  background-color: #dc3545;
+  cursor: pointer;
+}
+
+.form-item-remove-btn:focus {
+  outline: none;
+}
+
+.form-item-add-btn {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: #5ef196;
+  padding: 5px;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.form-item-add-btn:hover {
+  background-color: #35dc43;
+  cursor: pointer;
+}
+
+.form-item-add-btn:focus {
+  outline: none;
 }
