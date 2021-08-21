@@ -242,19 +242,19 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
         );
     })
 
-    // useEffect(() => {
-    //     UserService.getDeliveryUsersList().then(
-    //         response => {
-    //             setDeliveryRiders(Object.values(response.data));
-    //         },
-    //         error => {
-    //             console.log(
-    //                 (error.response && error.response.data) ||
-    //                 error.message ||
-    //                 error.toString())
-    //         }
-    //     );
-    // })
+    useEffect(() => {
+        UserService.getDeliveryUsersList().then(
+            response => {
+                setDeliveryRiders(Object.values(response.data));
+            },
+            error => {
+                console.log(
+                    (error.response && error.response.data) ||
+                    error.message ||
+                    error.toString())
+            }
+        );
+    })
 
     return (
         <>
