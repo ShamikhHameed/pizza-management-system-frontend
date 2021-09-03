@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@material-ui/core';
 import FlashMessage from '../Components/FlashMessage';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -48,6 +49,7 @@ function Crusts() {
     const [crustDetails, setCrustDetails] = useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const openAddCrustModal = () => {
         setShowAddCrustModal(prev => !prev)
@@ -104,6 +106,16 @@ function Crusts() {
                         Add Crust
                     </button>
                 </div>
+                <div className="BodyWindowTopRight">
+                    <SearchIcon/>
+                    <input 
+                        type="text"
+                        placeholder="Search by Name"
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                     />
+                </div>
             </div>
             <div className="BodyWindowBottom">
                 <TableContainer component={Paper} className={classes.TableContainer}>
@@ -130,7 +142,13 @@ function Crusts() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {crusts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((crust, index) => (
+                        {crusts.filter((crust) => {
+                            if (searchTerm == ""){
+                                return crust
+                            } else if (crust.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+                                return crust
+                            }
+                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((crust, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     <Grid container>

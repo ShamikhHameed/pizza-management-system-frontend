@@ -11,6 +11,10 @@ class OrderService {
         return axios.get(API_URL + "orders/delivered/false");
     }
 
+    getUndeliveredOrdersListByName(riderName) {
+        return axios.get(API_URL + "orders/delivered/false?riderName=" + riderName);
+    }
+
     addOrder(customerName, address, items, deliveryRider) {
         return axios.post(API_URL + "orders", {
             customerName,
@@ -33,6 +37,14 @@ class OrderService {
 
     deleteOrder(id) {
         return axios.delete(API_URL + "orders/" + id);
+    }
+
+    updateOrderDeliveredStatus(id) {
+        return axios.put(API_URL + "orders/delivered/" + id);
+    }
+
+    updateOrderSetDeliveryAssignedStatusFalse(id) {
+        return axios.put(API_URL + "orders/delivery/assigned/false/" + id);
     }
 }
 
