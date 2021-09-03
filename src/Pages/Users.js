@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@material-ui/core';
 import FlashMessage from '../Components/FlashMessage';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -51,6 +52,7 @@ function Users() {
     const [userDetails, setUserDetails] = useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const openAddUserModal = () => {
         setShowAddUserModal(prev => !prev)
@@ -107,6 +109,16 @@ function Users() {
                         Add User
                     </button>
                 </div>
+                <div className="BodyWindowTopRight">
+                    <SearchIcon/>
+                    <input 
+                        type="text"
+                        placeholder="Search by Username"
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                     />
+                </div>
             </div>
             <div className="BodyWindowBottom">
                 <TableContainer component={Paper} className={classes.TableContainer}>
@@ -125,7 +137,13 @@ function Users() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
+                        {users.filter((user) => {
+                            if (searchTerm == ""){
+                                return user
+                            } else if (user.username.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+                                return user
+                            }
+                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     <Grid container>
