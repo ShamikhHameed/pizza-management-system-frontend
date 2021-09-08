@@ -24,6 +24,7 @@ function Header({ authorized }) {
                         {user.roles[0] === "ROLE_ADMIN" && <p>Admin</p>}
                         {user.roles[0] === "ROLE_MANAGER" && <p>Manager</p>}
                         {user.roles[0] === "ROLE_CASHIER" && <p>Cashier</p>}
+                        {user.roles[0] === "ROLE_DELIVERY" && <p>Delivery</p>}
                     </div>
                     <button 
                         onClick={logOut}

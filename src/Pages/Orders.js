@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@material-ui/core';
 import FlashMessage from '../Components/FlashMessage';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -48,6 +49,7 @@ function Orders() {
     const [orderDetails, setOrderDetails] = useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const openAddOrderModal = () => {
         setShowAddOrderModal(prev => !prev)
@@ -104,6 +106,17 @@ function Orders() {
                         Add Order
                     </button>
                 </div>
+                <div className="BodyWindowTopRight" style={{ width: '250px' }}>
+                    <SearchIcon/>
+                    <input 
+                        style={{ width: '200px' }}
+                        type="text"
+                        placeholder="Search by Customer Name"
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                     />
+                </div>
             </div>
             <div className="BodyWindowBottom">
                 <TableContainer component={Paper} className={classes.TableContainer}>
@@ -127,7 +140,13 @@ function Orders() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order, index) => (
+                        {orders.filter((order) => {
+                            if (searchTerm == ""){
+                                return order
+                            } else if (order.customerName.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+                                return order
+                            }
+                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order, index) => (
                             <TableRow key={index}>
                                 <TableCell>{order.id}</TableCell>
                                 <TableCell>{order.customerName}</TableCell>
