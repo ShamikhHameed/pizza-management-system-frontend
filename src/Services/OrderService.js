@@ -33,14 +33,14 @@ class OrderService {
         });
     }
 
-    updateOrder(id, name, smallPrice, veg) {
+    updateOrder(id, customerName, address) {
 
-        let vegan = veg === "veg" ? true : false;
+        // let vegan = veg === "veg" ? true : false;
 
         return axios.put(API_URL + "orders/" + id, {
-            name,
-            smallPrice,
-            vegan
+            customerName,
+            address
+            
         });
     }
 

@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import CloseIcon from '@material-ui/icons/Close';
 import OrderService from '../Services/OrderService';
 import FlashMessage from '../Components/FlashMessage';
-import validateInfo from '../Validation/AddOrderValidation';
+import validateInfo from '../Validation/OrderValidation.js';
 import '../App.css'
 
 const Background = styled.div`
@@ -68,29 +68,24 @@ const CloseModalButton = styled(CloseIcon)`
 export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
     const modalRef = useRef()
     const [name, setName] = useState("");
-    const [smallPrice, setSmallPrice] = useState(null);
-    const [veg, setVeg] = useState("veg");
+    const [address, setAddress] = useState("");
     const [message, setMessage] = useState("");
     const [snackbarSuccess, setSnackbarSuccess] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarType, setSnackbarType] = useState("");
 
     const onChangeName = e => {
-        setName(e.target.value);
+        setName(e.target.value.name);
     }
 
-    const onChangeSmallPrice = e => {
-        setSmallPrice(e.target.value);
+    const onChangeAddress = e => {
+        setAddress(e.target.value.address);
     }
 
-    const onChangeVeg = e => {
-        setVeg(e.target.value);
-    }
 
     const [values, setValues] = useState({
         name: "",
-        smallPrice: null,
-        veg: ""
+        address: ""
     })
 
     const [errors, setErrors] = useState({})
@@ -100,8 +95,7 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
         setValues({
             ...values,
             name: orderDetails.name,
-            smallPrice: orderDetails.smallPrice,
-            veg: orderDetails.veg
+            address: orderDetails.address
         })
     }, [orderDetails]);
 
@@ -111,15 +105,14 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
         setValues({
             ...values,
             name: name,
-            smallPrice: smallPrice,
-            veg: veg
+            address: address
         })
 
         setErrors(validateInfo(values));
         setIsSubmitting(true);
 
         if(Object.keys(errors).length === 0 && isSubmitting) {
-            OrderService.updateOrder(orderDetails.id , name, smallPrice, veg)
+            OrderService.updateOrder(orderDetails.id , name, address)
     .then(
         () => {
             setShowModal(false);
@@ -155,8 +148,7 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
             setValues({
                 ...values,
                 name: "",
-                smallPrice: null,
-                veg: ""
+                address: ""
             })
             setShowModal(false);
         }
@@ -168,8 +160,7 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
                 setValues({
                     ...values,
                     name: "",
-                    smallPrice: null,
-                    veg: ""
+                    address: ""
                 })
                 setShowModal(false);
             }
@@ -199,7 +190,7 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
                                 <label htmlFor="name"
                                     className="form-label"
                                 >
-                                    Order Name
+                                    Customer Name
                                 </label>
                                 <input 
                                     type="text"
@@ -213,54 +204,24 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
                                     </div>
                             </div>
                             <div className="form-inputs">
-                                <label htmlFor="smallPrice"
+                                <label htmlFor="address"
                                     className="form-label"
                                 >
-                                    Small Price
+                                    Address
                                 </label>
                                 <input 
                                     type="text"
-                                    name="smallPrice"
+                                    name="address"
                                     className="form-input"
-                                    pattern="\d*"
-                                    defaultValue={values.smallPrice}
-                                    onChange={onChangeSmallPrice}
+                                    // pattern="\d*"
+                                    defaultValue={values.address}
+                                    onChange={onChangeAddress}
                                     />
                                     <div className="form-error">
-                                    {errors.smallPrice && <span>{errors.smallPrice}</span>}
+                                    {errors.address && <span>{errors.address}</span>}
                                     </div>
                             </div>
-                            <div className="form-inputs"
-                            onClick={onChangeVeg}
-                            >
-                            <label className="form-label">
-                                Choose Type
-                            </label>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input id="veg" type="radio" value="veg" name="userType" 
-                                        defaultChecked={orderDetails.vegan === true ? true : false}
-                                        />
-                                    </td>
-                                    <td className="radioLabel">
-                                        <label htmlFor="veg"> Veg</label>
-                                    </td>
-
-                                    <td>
-                                        <input id="non-veg" type="radio" value="non-veg" name="userType" 
-                                        defaultChecked={orderDetails.vegan === false ? true : false}
-                                        />
-                                    </td>
-                                    <td className="radioLabel">
-                                        <label htmlFor="non-veg"> Non-Veg</label>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div className="form-error">
-                            {errors.veg && <span>{errors.veg}</span>}
-                            </div>
-                            </div>
+        
                             <button className="form-input-btn"
                                 type="submit" onClick={handleSubmit}
                             >
