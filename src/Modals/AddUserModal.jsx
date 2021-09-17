@@ -78,6 +78,8 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
     const [snackbarType, setSnackbarType] = useState("");
     // const { handleChange, values, handleSubmit, errors } = useForm(validateInfo);
 
+    const user = AuthService.getCurrentUser();
+
     const onChangeUsername = e => {
         setUsername(e.target.value);
     }
@@ -134,9 +136,9 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
         setErrors(validateInfo(values));
         setIsSubmitting(true);
 
-        if(Object.keys(errors).length === 0 && isSubmitting) {
-            AuthService.register(username, email, role, password)
-    .then(
+        if(Object.keys(errors).length === 0 && isSubmitting && user != null) {
+            AuthService.register(username, email, role, password, user.username)
+        .then(
         () => {
             setShowModal(false);
             setSnackbarMessage("User added Successfully");
@@ -192,33 +194,35 @@ export const AddUserModal = ({ showModal, setShowModal }) => {
         [setShowModal, showModal]
     );
 
-    const addUser = e => {
-        e.preventDefault();
+    // const addUser = e => {
+    //     e.preventDefault();
 
-        //this.form.validateAll();
-        AuthService.register(username, email, role, password)
-        .then(
-            () => {
-                setShowModal(false);
-                setSnackbarMessage("User added Successfully");
-                setSnackbarType("success");
-                setSnackbarSuccess(true);
-            },
-            error => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                setSnackbarMessage("ERROR: Unable to add user. " + resMessage);
-                setSnackbarType("error");
-                setSnackbarSuccess(true);
-                setMessage(resMessage);
-            }
-        );
-        setSnackbarSuccess(false);     
-    }
+    //     //this.form.validateAll();
+    //     if(user != null){
+    //         AuthService.register(username, email, role, password)
+    //     .then(
+    //         () => {
+    //             setShowModal(false);
+    //             setSnackbarMessage("User added Successfully");
+    //             setSnackbarType("success");
+    //             setSnackbarSuccess(true);
+    //         },
+    //         error => {
+    //             const resMessage =
+    //                 (error.response &&
+    //                     error.response.data &&
+    //                     error.response.data.message) ||
+    //                 error.message ||
+    //                 error.toString();
+    //             setSnackbarMessage("ERROR: Unable to add user. " + resMessage);
+    //             setSnackbarType("error");
+    //             setSnackbarSuccess(true);
+    //             setMessage(resMessage);
+    //         }
+    //     );
+    //     setSnackbarSuccess(false);
+    //     }     
+    // }
 
     useEffect(
         () => {

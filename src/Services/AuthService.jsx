@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { Redirect } from 'react-router-dom';
 const API_URL = "http://localhost:8080/api/auth/";
 
 class AuthService {
@@ -16,17 +16,36 @@ class AuthService {
             });
     }
 
-    register(username, email, roles, password) {
+    register(username, email, roles, password, createdBy) {
         return axios.post(API_URL + "signup", {
             username,
             email,
             roles,
-            password
+            password,
+            createdBy
+        });
+    }
+
+    changePassword(username, currentPassword, newPassword) {
+        return axios.put(API_URL + "password/change", {
+            username,
+            currentPassword,
+            newPassword
+        });
+    }
+
+    updateUserDetails(id, firstName, lastName, address, phone) {
+        return axios.put(API_URL + "users/" + id, {
+            firstName, 
+            lastName, 
+            address, 
+            phone
         });
     }
 
     logout() {
         localStorage.removeItem("user");
+        return <Redirect to="/login" />
     }
 
     getCurrentUser() {
