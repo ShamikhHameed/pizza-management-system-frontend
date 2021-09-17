@@ -1,10 +1,16 @@
 import axios from 'axios';
-
 const API_URL = 'http://localhost:8080/api/access/';
 
 class CrustService {
     getCrustsList() {
         return axios.get(API_URL + "crusts");
+    }
+
+    getCrustStats(fromTimestamp, toTimestamp) {
+        return axios.post(API_URL + "crusts/stats", {
+            fromTimestamp,
+            toTimestamp
+        });
     }
 
     addCrust(name, smallPrice, veg) {

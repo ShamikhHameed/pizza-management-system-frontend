@@ -9,6 +9,7 @@ import '../App.css'
 import CrustService from '../Services/CrustService';
 import ToppingService from '../Services/ToppingService';
 import UserService from '../Services/UserService';
+import authService from '../Services/AuthService';
 
 const Background = styled.div`
     width: 200%;
@@ -85,6 +86,7 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
     const [crusts, setCrusts] = useState([]);
     const [toppings, setToppings] = useState([]);
     const [deliveryRiders, setDeliveryRiders] = useState([]);
+    const user = authService.getCurrentUser();
 
     const [itemList, setItemList] = useState([{ crust: "", topping: "", size: "", quantity: null }]);
 
@@ -171,7 +173,7 @@ export const AddOrderModal = ({ showModal, setShowModal }) => {
         // setIsSubmitting(true);
 
         if(Object.keys(errors).length === 0 && isSubmitting) {
-            OrderService.addOrder(name, address, itemList, delivery)
+            OrderService.addOrder(name, address, itemList, delivery, user.username)
         .then(
             () => {
                 setShowModal(false);
