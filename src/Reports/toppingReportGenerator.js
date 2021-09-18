@@ -3,6 +3,7 @@ import "jspdf-autotable";
 import { format } from "date-fns";
 import moment from 'moment';
 
+//GENERATING THE TOPPINGS REPORT
 const generatePDF = (toppings, type) => {
     const doc = new jsPDF();
     const tableColumn = ["Topping id", "Topping Name", "No.of times Ordered (S)", "No.of times Ordered (M)", "No.of times Ordered (L)", "Total"];

@@ -15,6 +15,7 @@ import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@materia
 import FlashMessage from '../Components/FlashMessage';
 import SearchIcon from '@material-ui/icons/Search';
 
+//CREATED SEARCH FIELD FOR TOPPINGS
 const useStyles = makeStyles((theme) => ({
     table: {
       minWidth: 650,
