@@ -13,7 +13,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@material-ui/core';
 import FlashMessage from '../Components/FlashMessage';
+import SearchIcon from '@material-ui/icons/Search';
 
+//CREATED SEARCH FIELD FOR TOPPINGS
 const useStyles = makeStyles((theme) => ({
     table: {
       minWidth: 650,
@@ -48,6 +50,7 @@ function Toppings() {
     const [toppingDetails, setToppingDetails] = useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const openAddToppingModal = () => {
         setShowAddToppingModal(prev => !prev)
@@ -104,6 +107,16 @@ function Toppings() {
                         Add Topping
                     </button>
                 </div>
+                <div className="BodyWindowTopRight">
+                    <SearchIcon/>
+                    <input 
+                        type="text"
+                        placeholder="Search by Name"
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                     />
+                </div>
             </div>
             <div className="BodyWindowBottom">
                 <TableContainer component={Paper} className={classes.TableContainer}>
@@ -130,7 +143,13 @@ function Toppings() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {toppings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((topping, index) => (
+                        {toppings.filter((topping) => {
+                            if (searchTerm == ""){
+                                return topping
+                            } else if (topping.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+                                return topping
+                            }
+                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((topping, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     <Grid container>
