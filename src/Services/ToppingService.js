@@ -7,6 +7,13 @@ class ToppingService {
         return axios.get(API_URL + "toppings");
     }
 
+    getToppingStats(fromTimestamp, toTimestamp) {
+        return axios.post(API_URL + "toppings/stats", {
+            fromTimestamp,
+            toTimestamp
+        });
+    }
+
     addTopping(name, smallPrice, veg) {
 
         let vegan = veg === "veg" ? true : false;

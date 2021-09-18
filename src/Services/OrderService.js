@@ -11,27 +11,36 @@ class OrderService {
         return axios.get(API_URL + "orders/delivered/false");
     }
 
+    getDeliveredOrdersList() {
+        return axios.get(API_URL + "orders/delivered");
+    }
+
     getUndeliveredOrdersListByName(riderName) {
         return axios.get(API_URL + "orders/delivered/false?riderName=" + riderName);
     }
 
-    addOrder(customerName, address, items, deliveryRider) {
+    getDeliveredOrdersListByName(riderName) {
+        return axios.get(API_URL + "orders/delivered?riderName=" + riderName);
+    }
+
+    addOrder(customerName, address, items, deliveryRider, cashier) {
         return axios.post(API_URL + "orders", {
             customerName,
             address,
             items,
-            deliveryRider
+            deliveryRider,
+            cashier
         });
     }
 
-    updateOrder(id, name, smallPrice, veg) {
+    updateOrder(id, customerName, address) {
 
-        let vegan = veg === "veg" ? true : false;
+        // let vegan = veg === "veg" ? true : false;
 
         return axios.put(API_URL + "orders/" + id, {
-            name,
-            smallPrice,
-            vegan
+            customerName,
+            address
+            
         });
     }
 

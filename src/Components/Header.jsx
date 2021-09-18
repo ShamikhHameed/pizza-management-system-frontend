@@ -16,23 +16,26 @@ function Header({ authorized }) {
 
     return (
         <div className="Header">
-                <div className="HeaderRight">
-                    <p>
-                        @{user.username}
-                    </p>
-                    <div>
-                        {user.roles[0] === "ROLE_ADMIN" && <p>Admin</p>}
-                        {user.roles[0] === "ROLE_MANAGER" && <p>Manager</p>}
-                        {user.roles[0] === "ROLE_CASHIER" && <p>Cashier</p>}
-                        {user.roles[0] === "ROLE_DELIVERY" && <p>Delivery</p>}
-                    </div>
-                    <button 
-                        onClick={logOut}
-                    >
-                        LOG OUT
-                    </button>
-                </div>
+            <div className="HeaderLeft">
+                <img className="logo" src="logoHOAD.png"/>
             </div>
+            <div className="HeaderRight">
+                <p>
+                    @{user != null && user.username}
+                </p>
+                <div>
+                    {user != null && user.roles[0] === "ROLE_ADMIN" && <p>Admin</p>}
+                    {user != null && user.roles[0] === "ROLE_MANAGER" && <p>Manager</p>}
+                    {user != null && user.roles[0] === "ROLE_CASHIER" && <p>Cashier</p>}
+                    {user != null && user.roles[0] === "ROLE_DELIVERY" && <p>Delivery</p>}
+                </div>
+                <button 
+                    onClick={logOut}
+                >
+                    LOG OUT
+                </button>
+            </div>
+        </div>
     )
 }
 
