@@ -3,6 +3,7 @@ import "jspdf-autotable";
 import { format } from "date-fns";
 import moment from 'moment';
 
+//Crust Report Generator
 const generatePDF = (crusts, type) => {
     const doc = new jsPDF();
     const tableColumn = ["Crust id", "Crust Name", "No.of times Ordered (S)", "No.of times Ordered (M)", "No.of times Ordered (L)", "Total"];
