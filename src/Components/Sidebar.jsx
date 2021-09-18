@@ -15,31 +15,8 @@ function Sidebar({ authorized }) {
         return <Redirect to="/login" />
     }
 
-    // const logOut = () => {
-    //     authService.logout();
-    //     window.location.reload();
-    // };
-
     return (
         <div>
-            {/* <div className="Header">
-                <div className="HeaderRight">
-                    <p>
-                        @{user.username}
-                    </p>
-                    <div>
-                        {user.roles[0] === "ROLE_ADMIN" && <p>Admin</p>}
-                        {user.roles[0] === "ROLE_MANAGER" && <p>Manager</p>}
-                        {user.roles[0] === "ROLE_CASHIER" && <p>Cashier</p>}
-                    </div>
-                    <button 
-                        onClick={logOut}
-                    >
-                        LOG OUT
-                    </button>
-                </div>
-            </div> */}
-
             <div className="Sidebar">
                 {SidebarData.map((val, index) => {
                     return val.role.map((roleVar, roleIndex) => (

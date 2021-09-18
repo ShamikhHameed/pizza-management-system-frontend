@@ -65,8 +65,8 @@ body {
   right: 0;
   text-align: right;
   height: 15%;
-  width: 85%;
-  box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.75);
+  width: 100%;
+  /* box-shadow: 5px 5px 5px -2px rgba(0, 0, 0, 0.75); */
 }
 
 .HeaderRight {
@@ -74,6 +74,16 @@ body {
   position: relative;
   padding: 10px 25px;
   text-align: center;
+  color: white;
+  display: block;
+}
+
+.HeaderLeft {
+  float: left;
+  text-align: left;
+  position: relative;
+  padding-top: 1%;
+  padding-left: 1.5%;
   color: white;
   display: block;
 }
@@ -174,6 +184,62 @@ body {
 }
 
 .BodyWindowTopRight > .MuiSvgIcon-root
+{
+  color: rgb(12, 12, 12);
+}
+
+.BodyWindowTopRightReport {
+  display: flex;
+  align-items: center;
+  float: right;
+  margin-top: -65px;
+}
+
+.BodyWindowTopRightReport > button
+{
+  width: 15vw;
+  padding: 7px 10px;
+  border-radius: 9px;
+  background-color: #0676ED;
+  color: white;
+  border: none;
+  margin-left: 5px;
+  margin-top: 15px;
+  margin-right: 20px;
+}
+
+.BodyWindowTopRightReport > button:hover
+{
+  background-color: #0568d3;
+  cursor: pointer;
+}
+
+.BodyWindowTopRightReport > button:focus
+{
+  outline: none;
+}
+
+.BodyWindowTopLeftReport {
+  margin-top: 2.5vh;
+  margin-right: 1vw;
+  width: 250px;
+  display: flex;
+  align-items: center;
+  background-color: #eceef0;
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 999px;
+}
+
+.BodyWindowTopLeftReport > input
+{
+  width: 200px;
+  border: none;
+  background-color: transparent;
+  outline-width: 0;
+}
+
+.BodyWindowTopLeftReport > .MuiSvgIcon-root
 {
   color: rgb(12, 12, 12);
 }
@@ -451,4 +517,95 @@ select {
 
 .form-item-add-btn:focus {
   outline: none;
+}
+
+.date-picker {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.divider {
+  display: inline-block;
+  width: 1px;
+  background-color: white;
+  height: 4em;
+  margin-right: 14px;
+  margin-top: 9px;
+}
+
+.logo {
+  width: 25%;
+}
+
+.UserDetails {
+  background-color: #192435;
+  position: absolute;
+  font-size: medium;
+  height: 83%;
+  width: 41.5%;
+  top: 15.7%;
+  left: 15.7%;
+  color: white;
+  box-shadow: 0px 0px 35px 5px rgba(0, 0, 0, 0.75);
+  padding-left: 1%;
+  padding-top: 1%;
+}
+
+.ChangePassword {
+  background-color: #192435;
+  position: absolute;
+  font-size: medium;
+  height: 83%;
+  width: 41.5%;
+  top: 15.7%;
+  left: 58%;
+  color: white;
+  box-shadow: 0px 0px 35px 5px rgba(0, 0, 0, 0.75);
+}
+
+.BlueButton
+{
+  /* position: absolute;
+  top: 26%;
+  left: 2%; */
+  margin-top: 20px;
+  padding: 7px 170px;
+  border-radius: 9px;
+  background-color: #0676ED;
+  color: white;
+  border: none;
+}
+
+.BlueButton:hover
+{
+  background-color: #0568d3;
+  cursor: pointer;
+}
+
+.BlueButton:focus
+{
+  outline: none;
+}
+
+.ProfileFormLabel {
+  display: inline-block;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  color: rgb(255, 255, 255);
+}
+
+.ProfileFormInput {
+  display: block;
+  padding-left: 10px;
+  outline: none;
+  border-radius: 2px;
+  height: 40px;
+  width: 100%;
+  border: none;
+  border-radius: 5px;
+  background-color: #f3f3f3;
+}
+
+.ProfileFormInput:read-only {
+  background-color: #a4a7aa;
 }
