@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AddUserModal } from '../Modals/AddUserModal';
-import { ConfirmDeleteModal } from '../Modals/ConfirmDeleteModal'
+import { ConfirmUserDeleteModal } from '../Modals/ConfirmUserDeleteModal'
 import { UpdateUserModal } from '../Modals/UpdateUserModal'
 import userService from '../Services/UserService';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,19 +12,21 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Avatar, Grid, TableFooter, TablePagination, Typography } from '@material-ui/core';
-import UserService from '../Services/UserService';
 import FlashMessage from '../Components/FlashMessage';
+import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles((theme) => ({
     table: {
       minWidth: 650,
+    //   backgroundColor: '#292e41'
     },
     TableContainer: {
-        borderRadius: 15
+        // borderRadius: 15
     },
     TableHeaderCell: {
         fontWeight: 'bold',
-        backgroundColor: '#0676ED',
+        // backgroundColor: '#0676ED',
+        backgroundColor: '#192435',
         color: 'white',
         paddingLeft: '60px'
     },
@@ -47,10 +49,10 @@ function Users() {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarType, setSnackbarType] = useState("");
     const [deleteUserId, setdeleteUserId] = useState("");
-    // const [updateUserId, setupdateUserId] = useState("");
     const [userDetails, setUserDetails] = useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [searchTerm, setSearchTerm] = useState("");
 
     const openAddUserModal = () => {
         setShowAddUserModal(prev => !prev)
@@ -70,7 +72,6 @@ function Users() {
     }
 
     const handleUpdate = async userDetails => {
-        // setupdateUserId(id);
         await setUserDetails(userDetails)
         await openUpdateUserModal();
     }
@@ -83,28 +84,6 @@ function Users() {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
       };
-
-    // const deleteUser = id => {
-    //     UserService.deleteUser(id).then(
-    //         () => {
-    //             setSnackbarMessage("User deleted Successfully");
-    //             setSnackbarType("success");
-    //             setSnackbarSuccess(true);
-    //         },
-    //         error => {
-    //             const resMessage =
-    //             (error.response &&
-    //                 error.response.data &&
-    //                 error.response.data.message) ||
-    //             error.message ||
-    //             error.toString();
-    //         setSnackbarMessage("ERROR: Unable to delete user. " + resMessage);
-    //         setSnackbarType("error");
-    //         setSnackbarSuccess(true);
-    //         // setMessage(resMessage);
-    //         }
-    //     )
-    // }
 
     useEffect(() => {
         userService.getUsersList().then(
@@ -130,13 +109,25 @@ function Users() {
                         Add User
                     </button>
                 </div>
+                <div className="BodyWindowTopRight">
+                    <SearchIcon/>
+                    <input 
+                        type="text"
+                        placeholder="Search by Username"
+                        onChange={(event) => {
+                            setSearchTerm(event.target.value);
+                        }}
+                     />
+                </div>
             </div>
             <div className="BodyWindowBottom">
                 <TableContainer component={Paper} className={classes.TableContainer}>
                     <Table className={classes.table} size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow>
-                                <TableCell className={classes.TableHeaderCell}>Username</TableCell>
+                                <TableCell className={classes.TableHeaderCell} style={{ paddingLeft:'140px' }}>
+                                    Username
+                                </TableCell>
                                 <TableCell className={classes.TableHeaderCell}>Email</TableCell>
                                 <TableCell className={classes.TableHeaderCell} style={{ paddingLeft:'30px' }}>
                                     Role
@@ -146,7 +137,13 @@ function Users() {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                        {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
+                        {users.filter((user) => {
+                            if (searchTerm == ""){
+                                return user
+                            } else if (user.username.toLowerCase().includes(searchTerm.toLocaleLowerCase())) {
+                                return user
+                            }
+                        }).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((user, index) => (
                             <TableRow key={index}>
                                 <TableCell>
                                     <Grid container>
@@ -197,7 +194,7 @@ function Users() {
             </div>
             <AddUserModal showModal={showAddUserModal} setShowModal={setShowAddUserModal} />
             <UpdateUserModal showModal={showUpdateUserModal} setShowModal={setShowUpdateUserModal} userDetails={userDetails} />
-            <ConfirmDeleteModal showModal={showConfirmDeleteModal} setShowModal={setShowConfirmDeleteModal} id={deleteUserId} />
+            <ConfirmUserDeleteModal showModal={showConfirmDeleteModal} setShowModal={setShowConfirmDeleteModal} id={deleteUserId} />
             {
             snackbarSuccess ? <FlashMessage message={snackbarMessage} type={snackbarType} /> : ""
             }

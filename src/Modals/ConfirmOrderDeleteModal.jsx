@@ -2,11 +2,10 @@ import React, { Component, useRef, useEffect, useCallback, useState } from 'reac
 import { useSpring, animated } from 'react-spring';
 import styled from 'styled-components'
 import CloseIcon from '@material-ui/icons/Close';
-import AuthService from '../Services/AuthService';
 import FlashMessage from '../Components/FlashMessage';
-import UserService from '../Services/UserService';
 import '../App.css'
 import DeleteIcon from '@material-ui/icons/HighlightOff';
+import OrderService from '../Services/OrderService';
 
 const Background = styled.div`
     width: 200%;
@@ -109,7 +108,7 @@ const DeleteButton = styled.button`
     }
 `
 
-export const ConfirmDeleteModal = ({ showModal, setShowModal, id }) => {
+export const ConfirmOrderDeleteModal = ({ showModal, setShowModal, id }) => {
     const modalRef = useRef()
     const [snackbarSuccess, setSnackbarSuccess] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -118,11 +117,11 @@ export const ConfirmDeleteModal = ({ showModal, setShowModal, id }) => {
     const handleDelete = e => {
         e.preventDefault();
 
-        UserService.deleteUser(id)
+        OrderService.deleteOrder(id)
         .then(
         () => {
             setShowModal(false);
-            setSnackbarMessage("User deleted Successfully");
+            setSnackbarMessage("Order deleted Successfully");
             setSnackbarType("success");
             setSnackbarSuccess(true);
         },
@@ -133,15 +132,13 @@ export const ConfirmDeleteModal = ({ showModal, setShowModal, id }) => {
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            setSnackbarMessage("ERROR: Unable to add user. " + resMessage);
+            setSnackbarMessage("ERROR: Unable to add order. " + resMessage);
             setSnackbarType("error");
             setSnackbarSuccess(true);
-            // setMessage(resMessage);
         }
     );
     setSnackbarSuccess(false);
     }
-    //validation end
 
     const animation = useSpring({
         config: {
