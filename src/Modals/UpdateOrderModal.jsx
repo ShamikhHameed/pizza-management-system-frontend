@@ -75,11 +75,11 @@ export const UpdateOrderModal = ({ showModal, setShowModal, orderDetails }) => {
     const [snackbarType, setSnackbarType] = useState("");
 
     const onChangeName = e => {
-        setName(e.target.value.name);
+        setName(e.target.value);
     }
 
     const onChangeAddress = e => {
-        setAddress(e.target.value.address);
+        setAddress(e.target.value);
     }
 
 
